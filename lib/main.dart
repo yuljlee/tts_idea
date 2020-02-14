@@ -30,32 +30,37 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final FlutterTts flutterTts = FlutterTts();
 
-  
-  
   @override
   Widget build(BuildContext context) {
- 
-    Future _speak() async {
-      print(await flutterTts.getLanguages);
-      await flutterTts.setLanguage('en-US');
+  
+    TextEditingController textEditingController = TextEditingController();
+  
+    Future _speak(String text) async {
+      //print(await flutterTts.getLanguages);
+      await flutterTts.setLanguage('ko-KR');
+      //await flutterTts.setLanguage('en-US');
       await flutterTts.setPitch(1);
-      await flutterTts.speak('Hello');
+      print(await flutterTts.getVoices);
+      await flutterTts.speak(text);
     }
 
     return Scaffold(
       appBar: AppBar(
- 
         title: Text(widget.title),
       ),
-      body: Center(
-    
-        child: Container(
-          child: RaisedButton(
-            child: Text('Tap this button'),
-            onPressed: () => _speak(),
-            )
-        ),
-      ),
-    );
+      body: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  TextFormField(
+                    controller: textEditingController,),
+                  RaisedButton(
+                    child: Text('Tap this button'),
+                    onPressed: () => _speak(textEditingController.text),
+                  )
+              ],)
+            ),
+      );
   }
 }
